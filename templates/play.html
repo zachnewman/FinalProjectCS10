@@ -1,0 +1,37 @@
+{% extends "fancylayout.html" %}
+
+{% block content %}
+  <div class="jumbotron">
+    <h1>Hangman</h1>
+    <br>
+    <h2>A game by <b>Schuyler and Zach</b> </h2>
+  </div>
+  <h3>Turn:</h3>
+  <br>
+  <h1>#{{state['turn']}}</h1>
+  <br>
+
+  <br>
+  <h3>
+  <form method="post" action="/play">
+    Type the number of the Choice you would like or type 'draw' to draw a card. <input type="text" name="guess">
+    <input type="submit" class="btn btn-lg btn-danger">
+  </form>
+  </h3>
+  <br>
+  <br>
+  <h3>Guesses left:</h3>
+  <br>
+<h1>  <b>{{state['guessesLeft']}}</b> </h1>
+  <br>
+  <br>
+  <h3>Your Message:</h3>
+  <br>
+  <h1>{{state['error']}}</h1>
+  <br>
+  <br>
+  <h3>The letters you've guessed already:</h3>
+  <br>
+   <h1>{{state['guesses']}}</h1>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+{% endblock %}

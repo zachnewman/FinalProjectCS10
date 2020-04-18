@@ -1,0 +1,22 @@
+{% extends "fancylayout.html" %}
+
+{% block content %}
+  <div class="jumbotron">
+    <h1>Hangman</h1>
+    <br>
+    <h2>A game by <b>Schuyler and Zach</b> </h2>
+  </div>
+  <h3>Your mystery word:</h3>
+  <br>
+  <h1>{{state['word_so_far']}}</h1>
+  <br>
+  <img src=/static/10Left.png alt="Alive" style="width:200px;height:286px;">
+  <br>
+  <h3>
+  <form method="post" action="/play">
+    Guess a letter: <input type="text" name="guess">
+    <input type="submit" class="btn btn-lg btn-danger">
+  </form>
+  </h3>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+{% endblock %}
