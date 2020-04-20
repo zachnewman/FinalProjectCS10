@@ -66,3 +66,26 @@ class Deck:
         self.cards = self.cards[n:]
         self.discards += c
         return(c)
+
+
+class CrazyEights:
+    def __init__(self):
+        self.cards = Deck()
+        self.cards.shuffle()
+
+    def user_wins_function(self):
+        print("You Win!")
+        print("Refresh the Page to Play Again!")
+        return True
+
+    def computer_wins_function(self):
+        print("You Lost!")
+        print("Refresh the Page to Play Again!")
+        return True
+
+    def sortValue(self,x):
+        sortvalue = Card.val(x)
+        return sortvalue
+
+    def sortSuit(self,x):
+        return x.suit
