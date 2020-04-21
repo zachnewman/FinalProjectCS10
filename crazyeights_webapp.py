@@ -147,6 +147,7 @@ def play():
 			 'imageForm':[],
 			 'computer':[],
 			 'topcard': "",
+			 'topImage':"",
 			 'declaredsuit':"",
 			 'turn': 0,
 			 'gameOver': False,
@@ -157,7 +158,7 @@ def play():
 			 'needNewSuit' : False,
 			 'needComputer' : False,
 			 'computerCount' : 7,
-			 'isOver': False
+			 'isOver': False,
 			 }
 	game = CrazyEights()
 	state['turn'] = 0
@@ -165,6 +166,7 @@ def play():
 	state['computer'] = game.cards.drawN(7)
 	state['pile'] = game.cards.drawN(38)
 	state['topcard'] = state['pile'][0]
+	state['topImage'] = state['topcard'].getImage()
 	state['pile'] = state['pile'][1:]
 	count = 1
 	for i in state['human']:
@@ -197,21 +199,25 @@ def crazy8():
 		if state['needNewSuit'] == True:
 			if choice == "clubs":
 				state['topcard'].suit = "Clubs"
+				state['topImage'] = state['topcard'].getImage()
 				state['needNewSuit'] = False
 				computerPlay()
 				return render_template('play.html',state=state)
 			elif choice == "diamonds":
 				state['topcard'].suit = "Diamonds"
+				state['topImage'] = state['topcard'].getImage()
 				state['needNewSuit'] = False
 				computerPlay()
 				return render_template('play.html',state=state)
 			elif choice == "hearts":
 				state['topcard'].suit = "Hearts"
+				state['topImage'] = state['topcard'].getImage()
 				state['needNewSuit'] = False
 				computerPlay()
 				return render_template('play.html',state=state)
 			elif choice == "spades":
 				state['topcard'].suit = "Spades"
+				state['topImage'] = state['topcard'].getImage()
 				state['needNewSuit'] = False
 				computerPlay()
 				return render_template('play.html',state=state)
@@ -244,7 +250,7 @@ def crazy8():
 				#state['humanForm'].pop(int(choice)-1)
 				reForm(state['human'])
 				state['topcard'] = selection
-				state['topcard'].suit = "You decide"
+				#state['topcard'].suit = "You decide"
 				if state['human'] == []:
 					state["message"] = "you won!"
 					state['isOver'] = True
@@ -255,6 +261,7 @@ def crazy8():
 				#state['humanForm'].pop(int(choice)-1)
 				reForm(state['human'])
 				state['topcard'] = selection
+				state['topImage'] = state['topcard'].getImage()
 				if state['human'] == []:
 					state["message"] = "you won!"
 					state['isOver'] = True
@@ -267,6 +274,7 @@ def crazy8():
 				#state['humanForm'].pop(int(choice)-1)
 				reForm(state['human'])
 				state['topcard'] = selection
+				state['topImage'] = state['topcard'].getImage()
 				if state['human'] == []:
 					state["message"] = "you won!"
 					state['isOver'] = True
@@ -293,8 +301,10 @@ def computerPlay():
 			if already == False:
 				state['message'] = "Computer has put down " + answer.__str__()
 			state['topcard'] = answer
+			state['topImage'] = state['topcard'].getImage()
 			if already == True:
 				state['topcard'].suit = newSuit
+				state['topImage'] = state['topcard'].getImage()
 			state['computerCount'] = len(state['computer'])
 			if state['computer'] == []:
 				state['message'] = "You lost"
@@ -312,6 +322,7 @@ def computerPlay():
 			if already == False:
 				state['message'] = "Computer has put down " + answer.__str__()
 			state['topcard'] = answer
+			state['topImage'] = state['topcard'].getImage()
 			state['computerCount'] = len(state['computer'])
 			if state['computer'] == []:
 				state['message'] = "You lost"
