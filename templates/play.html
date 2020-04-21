@@ -1,14 +1,29 @@
 {% extends "fancylayout.html" %}
 
 {% block content %}
+
+<head>
+  <link rel="stylesheet" href="cards.css">
+  </head>
+
   <div class="jumbotron">
-    <h1>CRAZY8s</h1>
+    <h1>CRAZY8's</h1>
     <br>
     <h2>A game by <b>Schuyler and Zach</b> </h2>
   </div>
-  <h3>Current top card:</h3>
+  <div class="playingCards">
+  <h3>Your Message:</h3>
+  <h1>{{state['message']}}</h1>
   <br>
-  <h1>{{state['topcard']}}</h1>
+  <h3>Computer Player's hand has:</h3>
+  <h3><b>{{state['computerCount']}}</b> cards</h3>
+  <br>
+  <h3>Current top card:</h3>
+  <b><h1>{{state['topcard']}}</h1></b>
+  <br>
+
+
+  <br>
   <h3>Your hand:</h3>
   {% for i in state['imageForm'] %}
   <img src=/static/{{ i }} alt="Card" style="width:110px;height:114px;">
@@ -16,17 +31,17 @@
   <br>
   {% if state['needNewSuit'] == True %}
         <prompt>
-          <h1>Please enter a suit</h1>
+          <h1>Please choose a suit by</h1>
           <form method="post" action="/play">
-            Type clubs diamonds hearts or spades. <input type="text" name="text">
+            typing <b>clubs, diamonds, hearts, or spades.</b> <input type="text" name="text">
             <input type="submit" class="btn btn-lg btn-danger">
             </form>
             </prompt>
   {% elif state['isOver'] == True %}
     <prompt>
-      <h1>The Game is over!</h1>
+      <h1>GAME OVER!</h1>
       <form method="post" action="/play">
-        Enter 'again' to play again! <input type="text" name="text">
+        Type 'again' to restart! <input type="text" name="text">
         <input type="submit" class="btn btn-lg btn-danger">
         </form>
         </prompt>
@@ -34,7 +49,7 @@
   {% else %}
   <h3>
   <form method="post" action="/play">
-    Type the number of the Choice you would like or type 'draw' to draw a card. <input type="text" name="text">
+    Type the # of a choice or type "draw": <input type="text" name="text">
     <input type="submit" class="btn btn-lg btn-danger">
   </form>
   {% endif %}
@@ -46,12 +61,8 @@
 <h1>  <b></b> </h1>
   <br>
   <br>
-  <h3>Your Message:</h3>
-  <br>
-  <h1>{{state['message']}}</h1>
-  <h3>Number of computer cards:</h3>
-  <h3>{{state['computerCount']}}</h3>
   <br>
    <h1></h1>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
 {% endblock %}
