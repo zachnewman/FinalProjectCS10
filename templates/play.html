@@ -1,11 +1,17 @@
 {% extends "fancylayout.html" %}
 
 {% block content %}
+
+<head>
+  <link rel="stylesheet" href="cards.css">
+  </head>
+
   <div class="jumbotron">
     <h1>CRAZY8's</h1>
     <br>
     <h2>A game by <b>Schuyler and Zach</b> </h2>
   </div>
+  <div class="playingCards">
   <h3>Your Message:</h3>
   <h1>{{state['message']}}</h1>
   <br>
@@ -14,6 +20,9 @@
   <br>
   <h3>Current top card:</h3>
   <b><h1>{{state['topcard']}}</h1></b>
+  <br>
+
+
   <br>
   <h3>Your hand:</h3>
   <h1>{{state['humanForm']}}</h1>
@@ -53,4 +62,5 @@
   <br>
    <h1></h1>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
 {% endblock %}
