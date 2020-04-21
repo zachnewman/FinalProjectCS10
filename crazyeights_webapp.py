@@ -193,7 +193,7 @@ def crazy8():
 				state['message'] = "Invalid response"
 				return render_template('play.html',state=state)
 			else:
-				play()
+				return play()
 		if state['needNewSuit'] == True:
 			if choice == "clubs":
 				state['topcard'].suit = "Clubs"
@@ -336,117 +336,5 @@ def reForm(oldList):
 
 		#return render_template('play.html',state=state)
 
-
-
-
 if __name__ == '__main__':
     app.run('0.0.0.0',port=3000)
-
-""""
-Card picture code for play.html
-{% elif state['topcard'] == Card('Clubs','2') %}
-<div class='card rank-2 clubs'><span class='rank'>2</span><span class='suit'>&clubs;</span> </div>
-{% elif state['topcard'] == Card('Clubs','3') %}
-<div class='card rank-3 clubs'><span class='rank'>3</span><span class='suit'>&clubs;</span> </div>
-{% elif state['topcard'] == Card('Clubs','4') %}
-<div class='card rank-4 clubs'><span class='rank'>4</span><span class='suit'>&clubs;</span> </div>
-{% elif state['topcard'] == Card('Clubs','5') %}
-<div class='card rank-5 clubs'><span class='rank'>5</span><span class='suit'>&clubs;</span> </div>
-{% elif state['topcard'] == Card('Clubs','6') %}
-<div class='card rank-6 clubs'><span class='rank'>6</span><span class='suit'>&clubs;</span> </div>
-{% elif state['topcard'] == Card('Clubs','7') %}
-<div class='card rank-7 clubs'><span class='rank'>7</span><span class='suit'>&clubs;</span> </div>
-{% elif state['topcard'] == Card('Clubs','8') %}
-<div class='card rank-8 clubs'><span class='rank'>8</span><span class='suit'>&clubs;</span> </div>
-{% elif state['topcard'] == Card('Clubs','9') %}
-<div class='card rank-9 clubs'><span class='rank'>9</span><span class='suit'>&clubs;</span> </div>
-{% elif state['topcard'] == Card('Clubs','10') %}
-<div class='card rank-10 clubs'><span class='rank'>10</span><span class='suit'>&clubs;</span> </div>
-{% elif state['topcard'] == Card('Clubs','J') %}
-<div class='card rank-J clubs'><span class='rank'>J</span><span class='suit'>&clubs;</span> </div>
-{% elif state['topcard'] == Card('Clubs','Q') %}
-<div class='card rank-Q clubs'><span class='rank'>Q</span><span class='suit'>&clubs;</span> </div>
-{% elif state['topcard'] == Card('Clubs','K') %}
-<div class='card rank-K clubs'><span class='rank'>K</span><span class='suit'>&clubs;</span> </div>
-{% elif state['topcard'] == Card('Clubs','A') %}
-<div class='card rank-A clubs'><span class='rank'>A</span><span class='suit'>&clubs;</span> </div>
-{% elif state['topcard'] == Card('Hearts','2') %}
-<div class='card rank-2 hearts'><span class='rank'>2</span><span class='suit'>&hearts;</span> </div>
-{% elif state['topcard'] == Card('Hearts','3') %}
-<div class='card rank-3 hearts'><span class='rank'>3</span><span class='suit'>&hearts;</span> </div>
-{% elif state['topcard'] == Card('Hearts','4') %}
-<div class='card rank-4 hearts'><span class='rank'>4</span><span class='suit'>&hearts;</span> </div>
-{% elif state['topcard'] == Card('Hearts','5') %}
-<div class='card rank-5 hearts'><span class='rank'>5</span><span class='suit'>&hearts;</span> </div>
-{% elif state['topcard'] == Card('Hearts','6') %}
-<div class='card rank-6 hearts'><span class='rank'>6</span><span class='suit'>&hearts;</span> </div>
-{% elif state['topcard'] == Card('Hearts','7') %}
-<div class='card rank-7 hearts'><span class='rank'>7</span><span class='suit'>&hearts;</span> </div>
-{% elif state['topcard'] == Card('Hearts','8') %}
-<div class='card rank-8 hearts'><span class='rank'>8</span><span class='suit'>&hearts;</span> </div>
-{% elif state['topcard'] == Card('Hearts','9') %}
-<div class='card rank-9 hearts'><span class='rank'>9</span><span class='suit'>&hearts;</span> </div>
-{% elif state['topcard'] == Card('Hearts','10') %}
-<div class='card rank-10 hearts'><span class='rank'>10</span><span class='suit'>&hearts;</span> </div>
-{% elif state['topcard'] == Card('Hearts','J') %}
-<div class='card rank-J hearts'><span class='rank'>J</span><span class='suit'>&hearts;</span> </div>
-{% elif state['topcard'] == Card('Hearts','Q') %}
-<div class='card rank-Q hearts'><span class='rank'>Q</span><span class='suit'>&hearts;</span> </div>
-{% elif state['topcard'] == Card('Hearts','K') %}
-<div class='card rank-K hearts'><span class='rank'>K</span><span class='suit'>&hearts;</span> </div>
-{% elif state['topcard'] == Card('Hearts','A') %}
-<div class='card rank-A hearts'><span class='rank'>A</span><span class='suit'>&hearts;</span> </div>
-{% elif state['topcard'] == Card('Diamonds','2') %}
-<div class='card rank-2 diamonds'><span class='rank'>2</span><span class='suit'>&diamonds;</span> </div>
-{% elif state['topcard'] == Card('Diamonds','3') %}
-<div class='card rank-3 diamonds'><span class='rank'>3</span><span class='suit'>&diamonds;</span> </div>
-{% elif state['topcard'] == Card('Diamonds','4') %}
-<div class='card rank-4 diamonds'><span class='rank'>4</span><span class='suit'>&diamonds;</span> </div>
-{% elif state['topcard'] == Card('Diamonds','5') %}
-<div class='card rank-5 diamonds'><span class='rank'>5</span><span class='suit'>&diamonds;</span> </div>
-{% elif state['topcard'] == Card('Diamonds','6') %}
-<div class='card rank-6 diamonds'><span class='rank'>6</span><span class='suit'>&diamonds;</span> </div>
-{% elif state['topcard'] == Card('Diamonds','7') %}
-<div class='card rank-7 diamonds'><span class='rank'>7</span><span class='suit'>&diamonds;</span> </div>
-{% elif state['topcard'] == Card('Diamonds','8') %}
-<div class='card rank-8 diamonds'><span class='rank'>8</span><span class='suit'>&diamonds;</span> </div>
-{% elif state['topcard'] == Card('Diamonds','9') %}
-<div class='card rank-9 diamonds'><span class='rank'>9</span><span class='suit'>&diamonds;</span> </div>
-{% elif state['topcard'] == Card('Diamonds','10') %}
-<div class='card rank-10 diamonds'><span class='rank'>10</span><span class='suit'>&diamonds;</span> </div>
-{% elif state['topcard'] == Card('Diamonds','J') %}
-<div class='card rank-J diamonds'><span class='rank'>J</span><span class='suit'>&diamonds;</span> </div>
-{% elif state['topcard'] == Card('Diamonds','Q') %}
-<div class='card rank-Q diamonds'><span class='rank'>Q</span><span class='suit'>&diamonds;</span> </div>
-{% elif state['topcard'] == Card('Diamonds','K') %}
-<div class='card rank-K diamonds'><span class='rank'>K</span><span class='suit'>&diamonds;</span> </div>
-{% elif state['topcard'] == Card('Diamonds','A') %}
-<div class='card rank-A diamonds'><span class='rank'>A</span><span class='suit'>&diamonds;</span> </div>
-{% elif state['topcard'] == Card('Spades','2') %}
-<div class='card rank-2 spades'><span class='rank'>2</span><span class='suit'>&spades;</span> </div>
-{% elif state['topcard'] == Card('Spades','3') %}
-<div class='card rank-3 spades'><span class='rank'>3</span><span class='suit'>&spades;</span> </div>
-{% elif state['topcard'] == Card('Spades','4') %}
-<div class='card rank-4 spades'><span class='rank'>4</span><span class='suit'>&spades;</span> </div>
-{% elif state['topcard'] == Card('Spades','5') %}
-<div class='card rank-5 spades'><span class='rank'>5</span><span class='suit'>&spades;</span> </div>
-{% elif state['topcard'] == Card('Spades','6') %}
-<div class='card rank-6 spades'><span class='rank'>6</span><span class='suit'>&spades;</span> </div>
-{% elif state['topcard'] == Card('Spades','7') %}
-<div class='card rank-7 spades'><span class='rank'>7</span><span class='suit'>&spades;</span> </div>
-{% elif state['topcard'] == Card('Spades','8') %}
-<div class='card rank-8 spades'><span class='rank'>8</span><span class='suit'>&spades;</span> </div>
-{% elif state['topcard'] == Card('Spades','9') %}
-<div class='card rank-9 spades'><span class='rank'>9</span><span class='suit'>&spades;</span> </div>
-{% elif state['topcard'] == Card('Spades','10') %}
-<div class='card rank-10 spades'><span class='rank'>10</span><span class='suit'>&spades;</span> </div>
-{% elif state['topcard'] == Card('Spades','J') %}
-<div class='card rank-J spades'><span class='rank'>J</span><span class='suit'>&spades;</span> </div>
-{% elif state['topcard'] == Card('Spades','Q') %}
-<div class='card rank-Q spades'><span class='rank'>Q</span><span class='suit'>&spades;</span> </div>
-{% elif state['topcard'] == Card('Spades','K') %}
-<div class='card rank-K spades'><span class='rank'>K</span><span class='suit'>&spades;</span> </div>
-{% elif state['topcard'] == Card('Spades','A') %}
-<div class='card rank-A spades'><span class='rank'>A</span><span class='suit'>&spades;</span> </div>
-  {% endif %}
- """
