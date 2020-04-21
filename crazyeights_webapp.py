@@ -123,6 +123,7 @@ def play():
 	global state
 	state = {'pile':[],
 			 'human':[],
+			 'humanForm':[],
 			 'computer':[],
 			 'topcard': "",
 			 'declaredsuit':"",
@@ -130,7 +131,10 @@ def play():
 			 'gameOver': False,
 			 'userWins': False,
 			 'computerWins': False,
-			 'message': ""
+			 'message': "",
+			 'computerMove': "",
+			 'needNewSuit' : False,
+			 'needComputer' : False
 			 }
 	game = CrazyEights()
 	state['turn'] = 0
@@ -139,6 +143,10 @@ def play():
 	state['pile'] = game.cards.drawN(38)
 	state['topcard'] = state['pile'][0]
 	state['pile'] = state['pile'][1:]
+	count = 1
+	for i in state['human']:
+		state['humanForm'].append({count: str(i)})
+		count +=1
 	print(state)
 	#global isHard
 	return render_template("start.html",state=state)
@@ -146,10 +154,127 @@ def play():
 
 @app.route('/play',methods=['GET','POST'])
 def crazy8():
+	global state
+	if request.method == 'GET':
+		return play()
+	elif request.method == 'POST':
+		choice = request.form['text'].lower()
+		valids = len(state['humanForm'])
+		validList = []
+		for i in range(1,valids+1):
+			validList.append(i)
+		if state['needComputer'] == True:
+			print('WHOABOY')
+			computerPlay()
+			state['needComputer'] = False
+			return render_template('play.html',state=state)
+		elif state['needNewSuit'] == True:
+			if choice == "clubs":
+				state['topcard'].suit = "Clubs"
+				state['needNewSuit'] = False
+				state['needComputer'] = True
+				return render_template('play.html',state=state)
+			elif choice == "diamonds":
+				state['topcard'].suit = "Diamonds"
+				state['needNewSuit'] = False
+				state['needComputer'] = True
+				return render_template('play.html',state=state)
+			elif choice == "hearts":
+				state['topcard'].suit = "Hearts"
+				state['needNewSuit'] = False
+				state['needComputer'] = True
+				return render_template('play.html',state=state)
+			elif choice == "spades":
+				state['topcard'].suit = "Spades"
+				state['needNewSuit'] = False
+				state['needComputer'] = True
+				return render_template('play.html',state=state)
+			else:
+				state['message'] = "Invalid Choice"
+				return render_template('play.html',state=state)
+		elif choice == "draw":
+			state['message'] = "You have drawn a card"
+			state['human'].append(state['pile'][0])
+			state['pile'] = state['pile'][1:]
+			state['humanForm'].append({len(state['humanForm'])+1: str(state['human'][len(state['human'])-1])})
+			return render_template('play.html',state=state)
+		choiceVal = 0
+		try:
+			choiceVal = int(choice)
+		except ValueError:
+			state['message'] = "invalid choice"
+			return render_template('play.html',state=state)
+		if choiceVal not in validList:
+			state['message'] = "invalid choice"
+			return render_template('play.html',state=state)
+		else:
+			selection = state['human'][int(choice)-1]
+			print(selection.value)
+			if int(selection.value) == 8:
+				state['needNewSuit'] = True
+				state['pile'].insert((len(state['pile'])+1), selection)
+				state['human'].remove(selection)
+				state['humanForm'].pop(int(choice)-1)
+				state['topcard'] = selection
+				state['topcard'].suit = "TBD"
+				return render_template('play.html',state=state)
+			elif selection.value == state['topcard'].value:
+				state['pile'].insert((len(state['pile'])+1), selection)
+				state['human'].remove(selection)
+				state['humanForm'].pop(int(choice)-1)
+				state['topcard'] = selection
+				state['needComputer'] = True
+				return render_template('play.html',state=state)
+			elif selection.suit.lower() == state['topcard'].suit.lower():
+				state['pile'].insert((len(state['pile'])+1), selection)
+				state['human'].remove(selection)
+				state['humanForm'].pop(int(choice)-1)
+				state['topcard'] = selection
+				state['needComputer'] = True
+				return render_template('play.html',state=state)
+			elif selection.suit.lower() != state['topcard'].suit.lower() and selection.value != state['topcard'].value:
+				state['message'] = "can't play that card"
+				return render_template('play.html',state=state)
+            #elif selection.suit.lower() == state['topcard'].suit.lower():
+
+def computerPlay():
+	global state
+	for answer in state['computer']:
+		already = False
+		if answer.suit.lower() == state['topcard'].suit.lower():
+			if answer.value == '8':
+				suitList = ['Clubs', 'Hearts', 'Diamonds', 'Spades']
+				newSuit = random.choice(suitList)
+				state['message'] = "Computer has put down and 8 and declared the suit to be " + newSuit
+				already = True
+			state['pile'].insert((len(state['pile'])+1),answer)
+			state['computer'].remove(answer)
+			if already == False:
+				state['message'] = "Computer has put down " + answer.__str__()
+			state['topcard'] = answer
+			if already == True:
+				state['topcard'].suit = newSuit
+			return None
+		elif answer.value == state['topcard'].value:
+			state['message'] = "Computer put down " + answer.__str__()
+			if answer.value == '8':
+				suitList = ['Clubs', 'Hearts', 'Diamonds', 'Spades']
+				newSuit = random.choice(suitList)
+				state['message'] = "Computer has put down and 8 and declared the suit to be " + newSuit
+				already = True
+			state['pile'].insert((len(state['pile'])+1),answer)
+			state['computer'].remove(answer)
+			if already == False:
+				state['message'] = "Computer has put down " + answer.__str__()
+			state['topcard'] = answer
+			return None
+		else:
+			state['computer'].append(state['pile'][0])
+			state['pile'] = state['pile'][1:]
+	return None
 
 
-
-
+"""
 	while True:
 		state['turn'] += 1
 		print("Current Top Card:",state['topcard'])
@@ -170,8 +295,8 @@ def crazy8():
 			state['gameOver'] = True
 			state['computerWins'] = True
 			return
-		continue
-	return render_template('play.html',state=state)
+		continue"""
+		#return render_template('play.html',state=state)
 
 
 
