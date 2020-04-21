@@ -159,6 +159,7 @@ def play():
 			 'needComputer' : False,
 			 'computerCount' : 7,
 			 'isOver': False,
+             'choiceList': [],
 			 }
 	game = CrazyEights()
 	state['turn'] = 0
@@ -174,6 +175,11 @@ def play():
 		count +=1
 	for i in state['human']:
 		state['imageForm'].append(i.getImage())
+	num = 1
+	for i in state['human']:
+		state['choiceList'].append(str(num))
+		num+=1
+
 	#global isHard
 	return render_template("start.html",state=state)
 
@@ -343,6 +349,10 @@ def reForm(oldList):
 	state['imageForm'] = []
 	for i in state['human']:
 		state['imageForm'].append(i.getImage())
+	num = 1
+	for i in state['human']:
+		state['choiceList'].append(str(num))
+		num+=1
 	return None
 
 		#return render_template('play.html',state=state)
