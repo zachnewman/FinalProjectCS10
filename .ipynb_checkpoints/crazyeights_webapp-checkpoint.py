@@ -134,7 +134,9 @@ def play():
 			 'message': "",
 			 'computerMove': "",
 			 'needNewSuit' : False,
-			 'needComputer' : False
+			 'needComputer' : False,
+			 'computerCount' : 0,
+			 'isOver': False
 			 }
 	game = CrazyEights()
 	state['turn'] = 0
@@ -158,36 +160,39 @@ def crazy8():
 	if request.method == 'GET':
 		return play()
 	elif request.method == 'POST':
+		print(state['computer'])
 		choice = request.form['text'].lower()
 		valids = len(state['humanForm'])
 		validList = []
 		for i in range(1,valids+1):
 			validList.append(i)
-		if state['needComputer'] == True:
-			print('WHOABOY')
-			computerPlay()
-			state['needComputer'] = False
-			return render_template('play.html',state=state)
-		elif state['needNewSuit'] == True:
+		if state['isOver'] == True:
+			if choice != "again":
+				state['message'] = "Invalid response"
+				return render_template('play.html',state=state)
+			else:
+				play()
+
+		if state['needNewSuit'] == True:
 			if choice == "clubs":
 				state['topcard'].suit = "Clubs"
 				state['needNewSuit'] = False
-				state['needComputer'] = True
+				computerPlay()
 				return render_template('play.html',state=state)
 			elif choice == "diamonds":
 				state['topcard'].suit = "Diamonds"
 				state['needNewSuit'] = False
-				state['needComputer'] = True
+				computerPlay()
 				return render_template('play.html',state=state)
 			elif choice == "hearts":
 				state['topcard'].suit = "Hearts"
 				state['needNewSuit'] = False
-				state['needComputer'] = True
+				computerPlay()
 				return render_template('play.html',state=state)
 			elif choice == "spades":
 				state['topcard'].suit = "Spades"
 				state['needNewSuit'] = False
-				state['needComputer'] = True
+				computerPlay()
 				return render_template('play.html',state=state)
 			else:
 				state['message'] = "Invalid Choice"
@@ -209,28 +214,42 @@ def crazy8():
 			return render_template('play.html',state=state)
 		else:
 			selection = state['human'][int(choice)-1]
-			print(selection.value)
-			if int(selection.value) == 8:
+			print(selection.val())
+			if int(selection.val()) == 8:
 				state['needNewSuit'] = True
 				state['pile'].insert((len(state['pile'])+1), selection)
 				state['human'].remove(selection)
-				state['humanForm'].pop(int(choice)-1)
+				#state['humanForm'].pop(int(choice)-1)
+				reForm(state['human'])
 				state['topcard'] = selection
-				state['topcard'].suit = "TBD"
+				state['topcard'].suit = "You decide"
+				if state['human'] == []:
+					state["message"] = "you won!"
+					state['isOver'] = True
 				return render_template('play.html',state=state)
 			elif selection.value == state['topcard'].value:
 				state['pile'].insert((len(state['pile'])+1), selection)
 				state['human'].remove(selection)
-				state['humanForm'].pop(int(choice)-1)
+				#state['humanForm'].pop(int(choice)-1)
+				reForm(state['human'])
 				state['topcard'] = selection
-				state['needComputer'] = True
+				if state['human'] == []:
+					state["message"] = "you won!"
+					state['isOver'] = True
+					return render_template('play.html',state=state)
+				computerPlay()
 				return render_template('play.html',state=state)
 			elif selection.suit.lower() == state['topcard'].suit.lower():
 				state['pile'].insert((len(state['pile'])+1), selection)
 				state['human'].remove(selection)
-				state['humanForm'].pop(int(choice)-1)
+				#state['humanForm'].pop(int(choice)-1)
+				reForm(state['human'])
 				state['topcard'] = selection
-				state['needComputer'] = True
+				if state['human'] == []:
+					state["message"] = "you won!"
+					state['isOver'] = True
+					return render_template('play.html',state=state)
+				computerPlay()
 				return render_template('play.html',state=state)
 			elif selection.suit.lower() != state['topcard'].suit.lower() and selection.value != state['topcard'].value:
 				state['message'] = "can't play that card"
@@ -242,7 +261,7 @@ def computerPlay():
 	for answer in state['computer']:
 		already = False
 		if answer.suit.lower() == state['topcard'].suit.lower():
-			if answer.value == '8':
+			if answer.val() == '8':
 				suitList = ['Clubs', 'Hearts', 'Diamonds', 'Spades']
 				newSuit = random.choice(suitList)
 				state['message'] = "Computer has put down and 8 and declared the suit to be " + newSuit
@@ -254,10 +273,14 @@ def computerPlay():
 			state['topcard'] = answer
 			if already == True:
 				state['topcard'].suit = newSuit
+			state['computerCount'] = len(state['computer'])
+			if state['computer'] == []:
+				state['message'] = "You lost"
+				state['isOver'] = True
 			return None
 		elif answer.value == state['topcard'].value:
 			state['message'] = "Computer put down " + answer.__str__()
-			if answer.value == '8':
+			if answer.val() == '8':
 				suitList = ['Clubs', 'Hearts', 'Diamonds', 'Spades']
 				newSuit = random.choice(suitList)
 				state['message'] = "Computer has put down and 8 and declared the suit to be " + newSuit
@@ -267,35 +290,25 @@ def computerPlay():
 			if already == False:
 				state['message'] = "Computer has put down " + answer.__str__()
 			state['topcard'] = answer
+			state['computerCount'] = len(state['computer'])
+			if state['computer'] == []:
+				state['message'] = "You lost"
+				state['isOver'] = True
 			return None
-		else:
-			state['computer'].append(state['pile'][0])
-			state['pile'] = state['pile'][1:]
+	else:
+		state['computer'].append(state['pile'][0])
+		state['pile'] = state['pile'][1:]
+		computerPlay()
 	return None
 
+def reForm(oldList):
+	state['humanForm'] = []
+	count = 1
+	for i in oldList:
+		state['humanForm'].append({count: str(i)})
+		count +=1
+	return None
 
-"""
-	while True:
-		state['turn'] += 1
-		print("Current Top Card:",state['topcard'])
-		state['topcard'] = crazyeights_app.self.human_playhand()
-		if state['topcard'].value == "8":
-			state['topcard'].suit = state['declaredsuit']
-		print("")
-		print("Human Player put down",state['topcard'])
-		print("")
-		if state['human'] == []:
-			state['gameOver'] = True
-			state['userWins'] = True
-			return
-		state['topcard'] = crazyeights_app.self.computer_playhand()
-		if state['topcard'].value == "8":
-			state['topcard'].suit = state['declaredsuit']
-		if state['computer'] == []:
-			state['gameOver'] = True
-			state['computerWins'] = True
-			return
-		continue"""
 		#return render_template('play.html',state=state)
 
 
