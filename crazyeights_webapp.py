@@ -35,6 +35,26 @@ class Card:
             return 13
         elif self.value == "A":
             return 14
+    def getImage(self):
+        "this returns the image name of the particular card"
+        suit = self.suit.lower()
+        suitIndex = 0
+        if suit == 'clubs':
+            suitIndex = 0
+        elif suit == 'diamonds':
+            suitIndex = 1
+        elif suit == 'hearts':
+            suitIndex = 2
+        else:
+            suitIndex = 3
+        cardIndex = self.val() - 2
+        masterImageList = [
+        ["2C.png","3C.png","4C.png","5C.png","6C.png","7C.png","8C.png","9C.png","10C.png","JC.png","QC.png","KC.png","AC.png"],
+        ["2D.png","3D.png","4D.png","5D.png","6D.png","7D.png","8D.png","9D.png","10D.png","JD.png","QD.png","KD.png","AD.png"],
+        ["2H.png","3H.png","4H.png","5H.png","6H.png","7H.png","8H.png","9H.png","10H.png","JH.png","QH.png","KH.png","AH.png"],
+        ["2S.png","3S.png","4S.png","5S.png","6S.png","7S.png","8S.png","9S.png","10S.png","JS.png","QS.png","KS.png","AS.png"]
+        ]
+        return masterImageList[suitIndex][cardIndex]
 
 
 class Deck:
@@ -124,6 +144,7 @@ def play():
 	state = {'pile':[],
 			 'human':[],
 			 'humanForm':[],
+			 'imageForm':[],
 			 'computer':[],
 			 'topcard': "",
 			 'declaredsuit':"",
@@ -135,7 +156,7 @@ def play():
 			 'computerMove': "",
 			 'needNewSuit' : False,
 			 'needComputer' : False,
-			 'computerCount' : 0,
+			 'computerCount' : 7,
 			 'isOver': False
 			 }
 	game = CrazyEights()
@@ -149,7 +170,8 @@ def play():
 	for i in state['human']:
 		state['humanForm'].append({count: str(i)})
 		count +=1
-	print(state)
+	for i in state['human']:
+		state['imageForm'].append(i.getImage())
 	#global isHard
 	return render_template("start.html",state=state)
 
@@ -160,7 +182,7 @@ def crazy8():
 	if request.method == 'GET':
 		return play()
 	elif request.method == 'POST':
-		print(state['computer'])
+		print(state['human'])
 		choice = request.form['text'].lower()
 		valids = len(state['humanForm'])
 		validList = []
@@ -201,6 +223,7 @@ def crazy8():
 			state['human'].append(state['pile'][0])
 			state['pile'] = state['pile'][1:]
 			state['humanForm'].append({len(state['humanForm'])+1: str(state['human'][len(state['human'])-1])})
+			reForm(state['human'])
 			return render_template('play.html',state=state)
 		choiceVal = 0
 		try:
@@ -306,6 +329,9 @@ def reForm(oldList):
 	for i in oldList:
 		state['humanForm'].append({count: str(i)})
 		count +=1
+	state['imageForm'] = []
+	for i in state['human']:
+		state['imageForm'].append(i.getImage())
 	return None
 
 		#return render_template('play.html',state=state)
