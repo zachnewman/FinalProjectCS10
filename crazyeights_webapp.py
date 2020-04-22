@@ -256,6 +256,8 @@ def crazy8():
 				#state['humanForm'].pop(int(choice)-1)
 				reForm(state['human'])
 				state['topcard'] = selection
+				state['topImage'] = state['topcard'].getImage()
+				state['message'] = "Please declare a suit below"
 				#state['topcard'].suit = "You decide"
 				if state['human'] == []:
 					state["message"] = "you won!"
