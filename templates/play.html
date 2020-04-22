@@ -2,30 +2,22 @@
 
 {% block content %}
 
-<head>
-  </head>
-
-  <div class="jumbotron">
-    <h1>CRAZY8's</h1>
-    <br>
-    <h2>A game by <b>Schuyler and Zach</b> </h2>
-  </div>
+<div class="alert alert-info" role="alert"><h1>Crazy8's by Schuyler and Zach</h1></div>
   <div class="playingCards">
   <h3>Your Message:</h3>
-  <h1>{{state['message']}}</h1>
+  <h3>{{state['message']}}</h3>
   <br>
-  <h3>Computer Player's hand has:</h3>
-  <h3><b>{{state['computerCount']}}</b> cards</h3>
+  <h3>Computer Player's hand has <b>{{state['computerCount']}}</b> cards</h3>
   <br>
   <h3>Current top card:</h3>
-  <b><img src=/static/{{ state['topImage'] }} alt="Card" style="width:110px;height:114px;"></b>
+  <b><img src=/static/{{ state['topImage'] }} alt="Card" style="width:110px;height:140px;"></b>
   <br>
 
 
   <br>
   <h3>Your hand:</h3>
   {% for i in state['imageForm'] %}
-  <img src=/static/{{ i }} alt="Card" style="width:110px;height:114px;">
+  <img src=/static/{{ i }} alt="Card" style="width:110px;height:140px;">
   {% endfor %}
   <br><br>
   {% for i in state['choiceList'] %}
@@ -38,11 +30,13 @@
   <br>
   {% if state['needNewSuit'] == True %}
         <prompt>
-          <h1>Please choose a suit by</h1>
+            <h3>
           <form method="post" action="/play">
-            typing <b>clubs, diamonds, hearts, or spades.</b> <input type="text" name="text">
+          You played an 8. Choose a suit by typing <b>clubs, diamonds, hearts, or spades.</b>
+           <input type="text" name="text">
             <input type="submit" class="btn btn-lg btn-danger">
             </form>
+            </h3>
             </prompt>
   {% elif state['isOver'] == True %}
     <prompt>
