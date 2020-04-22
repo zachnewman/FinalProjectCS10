@@ -231,8 +231,8 @@ def crazy8():
 				state['message'] = "Invalid Choice"
 				return render_template('play.html',state=state)
 		elif choice == "draw":
-			state['message'] = "You have drawn a card"
 			state['human'].append(state['pile'][0])
+			state['message'] = "You have drawn the "+str(state['human'])
 			state['pile'] = state['pile'][1:]
 			state['humanForm'].append({len(state['humanForm'])+1: str(state['human'][len(state['human'])-1])})
 			reForm(state['human'])
@@ -241,10 +241,10 @@ def crazy8():
 		try:
 			choiceVal = int(choice)
 		except ValueError:
-			state['message'] = "invalid choice"
+			state['message'] = "Invalid choice"
 			return render_template('play.html',state=state)
 		if choiceVal not in validList:
-			state['message'] = "invalid choice"
+			state['message'] = "Invalid choice"
 			return render_template('play.html',state=state)
 		else:
 			selection = state['human'][int(choice)-1]
@@ -256,9 +256,11 @@ def crazy8():
 				#state['humanForm'].pop(int(choice)-1)
 				reForm(state['human'])
 				state['topcard'] = selection
+				state['topImage'] = state['topcard'].getImage()
+				state['message'] = "Please declare a suit below"
 				#state['topcard'].suit = "You decide"
 				if state['human'] == []:
-					state["message"] = "you won!"
+					state["message"] = "YOU WIN!"
 					state['isOver'] = True
 				return render_template('play.html',state=state)
 			elif selection.value == state['topcard'].value:
@@ -269,7 +271,7 @@ def crazy8():
 				state['topcard'] = selection
 				state['topImage'] = state['topcard'].getImage()
 				if state['human'] == []:
-					state["message"] = "you won!"
+					state["message"] = "YOU WIN!"
 					state['isOver'] = True
 					return render_template('play.html',state=state)
 				computerPlay()
@@ -282,7 +284,7 @@ def crazy8():
 				state['topcard'] = selection
 				state['topImage'] = state['topcard'].getImage()
 				if state['human'] == []:
-					state["message"] = "you won!"
+					state["message"] = "YOU WIN!"
 					state['isOver'] = True
 					return render_template('play.html',state=state)
 				computerPlay()
@@ -313,7 +315,7 @@ def computerPlay():
 				state['topImage'] = state['topcard'].getImage()
 			state['computerCount'] = len(state['computer'])
 			if state['computer'] == []:
-				state['message'] = "You lost"
+				state['message'] = "You lost!"
 				state['isOver'] = True
 			return None
 		elif answer.value == state['topcard'].value:
@@ -331,7 +333,7 @@ def computerPlay():
 			state['topImage'] = state['topcard'].getImage()
 			state['computerCount'] = len(state['computer'])
 			if state['computer'] == []:
-				state['message'] = "You lost"
+				state['message'] = "You lost!"
 				state['isOver'] = True
 			return None
 	else:
@@ -349,6 +351,7 @@ def reForm(oldList):
 	state['imageForm'] = []
 	for i in state['human']:
 		state['imageForm'].append(i.getImage())
+	state['choiceList'] = []
 	num = 1
 	for i in state['human']:
 		state['choiceList'].append(str(num))
