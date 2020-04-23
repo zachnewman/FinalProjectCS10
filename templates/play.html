@@ -22,10 +22,11 @@
   {% endfor %}
   <br><br>
   {% for i in state['choiceList'] %}
-  <a type="button" class="btn btn-danger btn-lg" style="width:110px;height:50px;">
-      <h1>{{ i }}</h1>
-    </a>
-
+  <div style="display: inline-block;">
+  <form method = "post" action = "/play">
+      <input type="submit" name="text" value="{{ i }}" class="btn btn-danger btn-lg" style="width:110px;height:50px;">
+    </form>
+    </div>
   {% endfor %}
   <br>
   <br>

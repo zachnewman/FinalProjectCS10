@@ -326,10 +326,12 @@ def computerPlay():
 				state['message'] = "Computer has put down and 8 and declared the suit to be " + newSuit
 				already = True
 			state['pile'].insert((len(state['pile'])+1),answer)
+			state['topcard'] = answer
+			state['topcard'].suit = newSuit
 			state['computer'].remove(answer)
 			if already == False:
 				state['message'] = "Computer has put down " + answer.__str__()
-			state['topcard'] = answer
+				state['topcard'] = answer
 			state['topImage'] = state['topcard'].getImage()
 			state['computerCount'] = len(state['computer'])
 			if state['computer'] == []:
