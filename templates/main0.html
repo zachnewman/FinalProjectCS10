@@ -1,0 +1,22 @@
+{% extends "fancylayout.html" %}
+
+{% block content %}
+<style>
+  .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+</style>
+    <div class="jumbotron">
+      <h1>Welcome to the Online Game Room!
+      </h1>
+      <p>Crazy Eights Game made by <b>Schuyler and Zach</b>
+        <br>
+      <br>
+				<a type="button" class="btn btn-danger btn-lg" href="/start">PLAY CRAZY8's!</a>
+                <a type="button" class="btn btn-danger btn-lg" href="https://en.wikipedia.org/wiki/Crazy_Eights#Basic_play">Crazy8's Rules</a>
+    </div>
+    <img src=/static/cardsmainpage.png class="center">
+{% endblock %}
