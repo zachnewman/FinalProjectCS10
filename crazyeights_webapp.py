@@ -320,6 +320,7 @@ def computerPlay():
 			return None
 		elif answer.value == state['topcard'].value:
 			state['message'] = "Computer put down " + answer.__str__()
+			newSuit = state['topcard'].suit
 			if answer.val() == 8:
 				suitList = ['Clubs', 'Hearts', 'Diamonds', 'Spades']
 				newSuit = random.choice(suitList)
