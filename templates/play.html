@@ -11,7 +11,7 @@
   <h3>Computer has <b>{{state['computerCount']}}</b> cards</h3>
   <br>
   <h3>Current top card:</h3>
-  <b><img src=/static/{{ state['topImage'] }} alt="Card" style="width:110px;height:140px;"></b>
+  <b><img src=/static/{{ state['topImage'] }} alt="Card" style="width:120px;height:160px;"></b>
   <br>
 
 
@@ -19,9 +19,9 @@
   <h3>Your hand:</h3>
   {% for i in state['imageForm'] %}
   <div style="display: inline-block;">
-  <img src=/static/{{ i }} alt="Card" style="width:110px;height:140px;">
+  <img src=/static/{{ i }} alt="Card" style="width:120px;height:160px;">
   <form method = "post" action = "/play">
-      <input type="submit" name="text" value="{{ loop.index }}" class="btn btn-danger btn-lg" style="width:110px;height:50px;">
+      <input type="submit" name="text" value="{{ loop.index }}" class="btn btn-danger btn-lg" style="width:120px;height:50px;">
     </form>
     </div>
   {% endfor %}
@@ -30,40 +30,39 @@
   {% if state['needNewSuit'] == True %}
         <prompt>
             <h3>
-          <form method="post" action="/play">
-          You played an 8. Choose a suit by typing <b>clubs, diamonds, hearts, or spades.</b>
-           <input type="text" name="text">
-            <input type="submit" class="btn btn-lg btn-danger">
+          You played an 8. Choose a suit:
+          <form method="post" action="/play" style='display:inline;'>
+           <input type="submit" name="text" value='Clubs' class="btn btn-lg btn-danger" style='display:inline;' >
             </form>
+            <form method="post" action="/play" style='display:inline;'>
+             <input type="submit" name="text" value='Diamonds' class="btn btn-lg btn-danger" style='display:inline;'>
+              </form>
+              <form method="post" action="/play" style='display:inline;'>
+               <input type="submit" name="text" value='Hearts' class="btn btn-lg btn-danger" style='display:inline;'>
+                </form>
+                <form method="post" action="/play" style='display:inline;'>
+                 <input type="submit" name="text" value='Spades' class="btn btn-lg btn-danger" style='display:inline;'>
+                  </form>
             </h3>
             </prompt>
   {% elif state['isOver'] == True %}
     <prompt>
-      <h1>GAME OVER!</h1>
+      <h1>GAME OVER!
       <form method="post" action="/play">
         Type 'again' to restart! <input type="text" name="text">
         <input type="submit" class="btn btn-lg btn-danger">
         </form>
+        </h1>
         </prompt>
 
   {% else %}
   <h3>
       <div style="display: inline-block;">
         <form method = "post" action = "/play">
-            <input type="submit" name="text" value="Draw" class="btn btn-danger btn-lg">
+            <input type="submit" name="text" value="Draw" class="btn btn-primary btn-lg">
           </form>
           </div>
+      </h3>
   {% endif %}
-  </h3>
-  <br>
-  <br>
-  <h3></h3>
-  <br>
-<h1>  <b></b> </h1>
-  <br>
-  <br>
-  <br>
-   <h1></h1>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </div>
 {% endblock %}
