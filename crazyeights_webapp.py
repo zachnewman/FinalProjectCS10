@@ -191,7 +191,7 @@ def crazy8():
 		return play()
 	elif request.method == 'POST':
 		print(state['human'])
-		choice = request.form['text'].lower()
+		choice = request.form['text']
 		valids = len(state['humanForm'])
 		validList = []
 		for i in range(1,valids+1):
@@ -203,25 +203,25 @@ def crazy8():
 			else:
 				return play()
 		if state['needNewSuit'] == True:
-			if choice == "clubs":
+			if choice == "Clubs":
 				state['topcard'].suit = "Clubs"
 				state['topImage'] = state['topcard'].getImage()
 				state['needNewSuit'] = False
 				computerPlay()
 				return render_template('play.html',state=state)
-			elif choice == "diamonds":
+			elif choice == "Diamonds":
 				state['topcard'].suit = "Diamonds"
 				state['topImage'] = state['topcard'].getImage()
 				state['needNewSuit'] = False
 				computerPlay()
 				return render_template('play.html',state=state)
-			elif choice == "hearts":
+			elif choice == "Hearts":
 				state['topcard'].suit = "Hearts"
 				state['topImage'] = state['topcard'].getImage()
 				state['needNewSuit'] = False
 				computerPlay()
 				return render_template('play.html',state=state)
-			elif choice == "spades":
+			elif choice == "Spades":
 				state['topcard'].suit = "Spades"
 				state['topImage'] = state['topcard'].getImage()
 				state['needNewSuit'] = False

@@ -26,19 +26,21 @@
 <body>
 	<div class="text-center">
     <br>
-      <a type="button" class="btn btn-primary btn-lg" href="/">Home</a>
-				<a type="button" class="btn btn-primary btn-lg" href="/start">New Game</a>
-          <a type="button" class="btn btn-primary btn-lg" href="https://en.wikipedia.org/wiki/Crazy_Eights#Basic_play">Rules</a>
-                <a type="button" class="btn btn-primary btn-lg" href="/about">About Us</a>
+      <a type="button" class="btn btn-success btn-lg" href="/">Home</a>
+				<a type="button" class="btn btn-success btn-lg" href="/start">New Game</a>
+          <a type="button" class="btn btn-success btn-lg" href="https://en.wikipedia.org/wiki/Crazy_Eights#Basic_play">Rules</a>
+                <a type="button" class="btn btn-success btn-lg" href="/about">About Us</a>
 
         <br>
 				  </div>
     <div class="container" id="content">
 		{% block content %}{% endblock %}
 	</div>
-    <div id="footer">
+    <div id="footer" style="text-align: center">
         {% block footer %}
+        <div id="footer1" style="display: inline-block">
         &copy; Copyright 2020 by Schuyler and Zach.
+      </div>
         {% endblock %}
     </div>
 
