@@ -230,7 +230,7 @@ def crazy8():
 			else:
 				state['message'] = "Invalid Choice"
 				return render_template('play.html',state=state)
-		elif choice == "draw":
+		elif choice == "Draw":
 			state['human'].append(state['pile'][0])
 			state['message'] = "You have drawn the "+str(state['human'][-1])
 			state['pile'] = state['pile'][1:]

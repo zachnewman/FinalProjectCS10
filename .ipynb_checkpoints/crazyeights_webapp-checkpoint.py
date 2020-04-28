@@ -191,7 +191,8 @@ def crazy8():
 		return play()
 	elif request.method == 'POST':
 		print(state['human'])
-		choice = request.form['text'].lower()
+		choice = request.form['text']
+		drawbutton = request.form['drawbutton']
 		valids = len(state['humanForm'])
 		validList = []
 		for i in range(1,valids+1):
@@ -203,25 +204,25 @@ def crazy8():
 			else:
 				return play()
 		if state['needNewSuit'] == True:
-			if choice == "clubs":
+			if choice == "Clubs":
 				state['topcard'].suit = "Clubs"
 				state['topImage'] = state['topcard'].getImage()
 				state['needNewSuit'] = False
 				computerPlay()
 				return render_template('play.html',state=state)
-			elif choice == "diamonds":
+			elif choice == "Diamonds":
 				state['topcard'].suit = "Diamonds"
 				state['topImage'] = state['topcard'].getImage()
 				state['needNewSuit'] = False
 				computerPlay()
 				return render_template('play.html',state=state)
-			elif choice == "hearts":
+			elif choice == "Hearts":
 				state['topcard'].suit = "Hearts"
 				state['topImage'] = state['topcard'].getImage()
 				state['needNewSuit'] = False
 				computerPlay()
 				return render_template('play.html',state=state)
-			elif choice == "spades":
+			elif choice == "Spades":
 				state['topcard'].suit = "Spades"
 				state['topImage'] = state['topcard'].getImage()
 				state['needNewSuit'] = False
@@ -230,9 +231,9 @@ def crazy8():
 			else:
 				state['message'] = "Invalid Choice"
 				return render_template('play.html',state=state)
-		elif choice == "draw":
+		elif drawbutton == "Draw":
 			state['human'].append(state['pile'][0])
-			state['message'] = "You have drawn the "+str(state['human'])
+			state['message'] = "You have drawn the "+str(state['human'][-1])
 			state['pile'] = state['pile'][1:]
 			state['humanForm'].append({len(state['humanForm'])+1: str(state['human'][len(state['human'])-1])})
 			reForm(state['human'])
@@ -320,6 +321,7 @@ def computerPlay():
 			return None
 		elif answer.value == state['topcard'].value:
 			state['message'] = "Computer put down " + answer.__str__()
+			newSuit = state['topcard'].suit
 			if answer.val() == 8:
 				suitList = ['Clubs', 'Hearts', 'Diamonds', 'Spades']
 				newSuit = random.choice(suitList)
@@ -327,9 +329,13 @@ def computerPlay():
 				already = True
 			state['pile'].insert((len(state['pile'])+1),answer)
 			state['computer'].remove(answer)
+			state['topcard'] = answer
+			if already == True:
+				state['topcard'].suit = newSuit
+				state['topImage'] = state['topcard'].getImage()
 			if already == False:
 				state['message'] = "Computer has put down " + answer.__str__()
-			state['topcard'] = answer
+				state['topcard'] = answer
 			state['topImage'] = state['topcard'].getImage()
 			state['computerCount'] = len(state['computer'])
 			if state['computer'] == []:
